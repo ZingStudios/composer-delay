@@ -15,8 +15,7 @@ You can install the plugin either globally (protects every project you work on) 
 ### Globally
 
 ```sh
-composer global config repositories.composer-delay vcs ssh://git@gitlab.zingstudios.com:2202/zing/composer-delay.git
-composer global require zingstudios/composer-delay:dev-main
+composer global require zingstudios/composer-delay
 ```
 
 The plugin then applies to every Composer command that user runs.
@@ -26,8 +25,7 @@ The plugin then applies to every Composer command that user runs.
 Run these in the project directory:
 
 ```sh
-composer config repositories.composer-delay vcs ssh://git@gitlab.zingstudios.com:2202/zing/composer-delay.git
-composer require --dev zingstudios/composer-delay:dev-main
+composer require --dev zingstudios/composer-delay
 ```
 
 This commits the repository entry and the dependency into the project's `composer.json`, so teammates and CI pick up the protection automatically on their next `composer install`.

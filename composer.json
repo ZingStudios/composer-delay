@@ -1,5 +1,15 @@
 {
     "name": "zingstudios/composer-delay",
+    "authors": [
+        {
+            "name": "Ben Mason",
+            "email": "ben@zingstudios.com"
+        }
+    ],
+    "homepage": "https://github.com/ZingStudios/composer-delay",
+    "support": {
+        "issues": "https://github.com/ZingStudios/composer-delay/issues"
+    },
     "description": "Composer plugin that blocks installation of packages newer than a configurable threshold.",
     "type": "composer-plugin",
     "license": "MIT",
