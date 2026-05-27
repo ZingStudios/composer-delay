@@ -8,8 +8,6 @@ Subscribes to Composer's `pre-pool-create` event and filters too-new versions ou
 
 ## Install
 
-The package lives on Zing's internal GitLab. You need SSH access to the GitLab host — same key you use for `git clone` from there.
-
 You can install the plugin either globally (protects every project you work on) or per-project (protects just one project, including for teammates and CI). Both can coexist.
 
 ### Globally
