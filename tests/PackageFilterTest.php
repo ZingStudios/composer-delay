@@ -135,6 +135,38 @@ final class PackageFilterTest extends TestCase
         $this->assertSame('2.0.0.0', $result['blocked'][0]['package']->getVersion());
     }
 
+    public function testPlatformPackagesAreSilentlyKept(): void
+    {
+        $filter = new PackageFilter(new Config(days: 3, exclude: []));
+        $names = [
+            'php',
+            'php-64bit',
+            'ext-mbstring',
+            'ext-pdo_sqlite',
+            'lib-openssl',
+            'composer',
+            'composer-plugin-api',
+            'composer-runtime-api',
+        ];
+        $packages = array_map(fn(string $n) => $this->makePackage($n, '1.0.0', null), $names);
+
+        $result = $filter->filter($packages, $this->now);
+
+        $this->assertCount(count($names), $result['kept']);
+        $this->assertSame([], $result['blocked']);
+    }
+
+    public function testRootPackageIsSilentlyKept(): void
+    {
+        $filter = new PackageFilter(new Config(days: 3, exclude: []));
+        $pkg = $this->makePackage('__root__', '1.0.0', null);
+
+        $result = $filter->filter([$pkg], $this->now);
+
+        $this->assertCount(1, $result['kept']);
+        $this->assertSame([], $result['blocked']);
+    }
+
     private function makePackage(string $name, string $prettyVersion, ?DateTimeImmutable $releaseDate): Package
     {
         $normalized = $prettyVersion . '.0';

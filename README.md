@@ -74,6 +74,7 @@ If a configuration block is absent, the plugin still runs with default settings.
 ## Behavior notes
 
 - **Fallback is automatic.** If `^2.0` resolves to a too-new `2.5.0`, the plugin removes `2.5.0` from the pool and the solver falls back to the next acceptable version (e.g. `2.4.0`). You'll see a warning, not a failure.
+- **Platform packages are always ignored.** PHP itself, `ext-*`, `lib-*`, and Composer's own meta packages (`composer`, `composer-plugin-api`, `composer-runtime-api`), plus the root project, are skipped — they don't come from Packagist and don't carry release dates by design.
 - **Missing release dates are treated as blocked.** Path repositories and some VCS configurations report no release date; add those packages to `exclude` to allow them.
 - **Lockfile installs can fail.** `composer install` from a lockfile that pins a too-new version will fail, by design. Run `composer update <package>` to re-resolve against the filtered pool.
 - **One-off bypass.** Either bump `days: 0` temporarily, add the package to `exclude`, or `composer global remove zingstudios/composer-delay` and reinstall after.

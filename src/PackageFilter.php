@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zingstudios\ComposerDelay;
 
 use Composer\Package\BasePackage;
+use Composer\Repository\PlatformRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
 
@@ -29,7 +30,14 @@ final class PackageFilter
         $thresholdSeconds = $this->config->days * 86400;
 
         foreach ($packages as $package) {
-            if ($this->isExcluded($package->getName())) {
+            $name = $package->getName();
+
+            if ($name === '__root__' || PlatformRepository::isPlatformPackage($name)) {
+                $kept[] = $package;
+                continue;
+            }
+
+            if ($this->isExcluded($name)) {
                 $kept[] = $package;
                 continue;
             }
