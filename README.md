@@ -8,11 +8,45 @@ Subscribes to Composer's `pre-pool-create` event and filters too-new versions ou
 
 ## Install
 
+The package lives on Zing's internal GitLab. You need SSH access to the GitLab host — same key you use for `git clone` from there.
+
+You can install the plugin either globally (protects every project you work on) or per-project (protects just one project, including for teammates and CI). Both can coexist.
+
+### Globally
+
 ```sh
-composer global require zingstudios/composer-delay
+composer global config repositories.composer-delay vcs ssh://git@gitlab.zingstudios.com:2202/zing/composer-delay.git
+composer global require zingstudios/composer-delay:dev-main
 ```
 
-The plugin then applies to every Composer command run by that user.
+The plugin then applies to every Composer command that user runs.
+
+### Per project
+
+Run these in the project directory:
+
+```sh
+composer config repositories.composer-delay vcs ssh://git@gitlab.zingstudios.com:2202/zing/composer-delay.git
+composer require --dev zingstudios/composer-delay:dev-main
+```
+
+This commits the repository entry and the dependency into the project's `composer.json`, so teammates and CI pick up the protection automatically on their next `composer install`.
+
+### Allow the plugin to run
+
+Since Composer 2.2, plugins must be explicitly allowed by each project's `composer.json`. Add this to any project you want protected:
+
+```json
+{
+  "config": {
+    "allow-plugins": {
+      "zingstudios/composer-delay": true
+    }
+  }
+}
+```
+
+If you don't, Composer will prompt the first time it sees the plugin and write your answer into `composer.json`. Make sure to answer "yes" — answering "no" disables the plugin for that project. This applies whether the plugin is installed globally or per-project.
 
 ## Configure
 
